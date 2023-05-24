@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('farms', function (Blueprint $table) {
             $table->id();
             $table->string('codename');
-            $table->integer('latitude');
-            $table->integer('longitude');
+            $table->float('latitude');
+            $table->float('longitude');
             $table->string('plant');
             $table->unsignedBigInteger('map_id');
             $table->foreign('map_id')->references('id')->on('maps')->onDelete('cascade');
-            $table->unsignedBigInteger('farmer_id');
-            $table->foreign('farmer_id')->references('id')->on('farmers')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
