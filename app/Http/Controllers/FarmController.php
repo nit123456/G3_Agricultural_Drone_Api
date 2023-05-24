@@ -13,14 +13,8 @@ class FarmController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $farm = Farm::all();
+        return response()->json(['massage'=>'List of farm','success'=>true,'data'=>$farm],201);
     }
 
     /**
@@ -29,6 +23,15 @@ class FarmController extends Controller
     public function store(Request $request)
     {
         //
+        $farm = Farm::create([
+            "codename" => $request->codename,
+            "latitude" => $request->latitude,
+            "longitude" => $request->longitude,
+            "plant" => $request->plant,
+            "map_id" => $request->map_id,
+            "farmer_id" => $request->farmer_id
+        ]);
+        return response()->json(['massage'=>'Create new farm successfully','success'=>true,'data'=>$farm],201);
     }
 
     /**

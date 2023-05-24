@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('farmers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('age');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('email')->unique();
+            $table->string('password');
             $table->timestamps();
         });
     }

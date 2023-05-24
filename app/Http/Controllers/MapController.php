@@ -12,15 +12,8 @@ class MapController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $map = Map::all();
+        return response()->json(['massage'=>'List of maps','success'=>true,'data'=>$map],201);
     }
 
     /**
@@ -29,37 +22,11 @@ class MapController extends Controller
     public function store(Request $request)
     {
         //
+        $map = Map::create([
+            'name' => $request->name,
+        ]);
+        return response()->json(['massage'=>'You create new map successfully','success'=>true,'data'=>$map],201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Map $map)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Map $map)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Map $map)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Map $map)
-    {
-        //
-    }
+    
 }
