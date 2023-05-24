@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DroneController;
+use App\Http\Controllers\FarmerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,6 @@ Route::get('/drones' , [DroneController::class,'index']);
 Route::get('/drones/{codename}' , [DroneController::class,'getDroneBy']);
 Route::get('/drones/{codename}/{location}' , [DroneController::class,'showDroneLocation']);
 Route::post('/drones' , [DroneController::class,'store']);
+
+Route::post('/farmer', [FarmerController::class, 'register']);
+Route::get('/farmers', [FarmerController::class, 'index']);

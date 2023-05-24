@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Farmer;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class FarmerController extends Controller
 {
@@ -12,7 +14,12 @@ class FarmerController extends Controller
      */
     public function index()
     {
-        //
+        $farmer= Farmer::all();
+        if ($farmer->isNotEmpty()){
+            return response()->json(['message'=>'List of farmers', 'data'=>$farmer],200);
+        }
+        return response()->json(['message'=>'There are no farmer.']);
+        
     }
 
     /**
@@ -26,9 +33,21 @@ class FarmerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
-        //
+        $request->validate([
+            'firstName'=>'required|string',
+            'lastName'=>'required|string',
+            'email'=>'required|email|unique:Farmers',
+            'password'=>'required|string|confirmed|min:4',
+        ]);
+        $farmer= Farmer::create([
+            'firstName'=>$request->firstName,
+            'lastName'=>$request->lastName,
+            'email'=>$request->email,
+            'password'=>Hash::make($request->password),
+        ]);
+        return response()->json(['message'=>'Farmer has been created.', 'data'=>$farmer],200);
     }
 
     /**
