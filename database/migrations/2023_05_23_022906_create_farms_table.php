@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('farms', function (Blueprint $table) {
             $table->id();
-            $table->string('codename');
+            $table->string('codeName');
             $table->float('latitude');
             $table->float('longitude');
             $table->string('plant');

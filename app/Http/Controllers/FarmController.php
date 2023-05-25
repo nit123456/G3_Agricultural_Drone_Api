@@ -24,12 +24,12 @@ class FarmController extends Controller
     {
         //
         $farm = Farm::create([
-            "codename" => $request->codename,
+            "codeName" => $request->codeName,
             "latitude" => $request->latitude,
             "longitude" => $request->longitude,
             "plant" => $request->plant,
             "map_id" => $request->map_id,
-            "farmer_id" => $request->farmer_id
+            "user_id" => $request->user_id
         ]);
         return response()->json(['massage'=>'Create new farm successfully','success'=>true,'data'=>$farm],201);
     }
