@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Instruction;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class InstructionController extends Controller
@@ -12,7 +13,11 @@ class InstructionController extends Controller
      */
     public function index()
     {
-        //
+        $instructions= Instruction::all();
+        if($instructions->isNotEmpty()){
+            return response()->json(['message'=>'There are all instructions.', 'data'=>$instructions],200);
+        }
+        return response()->json(['message'=>'There are no instruction.']);
     }
 
     /**
@@ -28,7 +33,13 @@ class InstructionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $instruction= Instruction::create([
+            'condName'=>$request->codeName,
+            'description'=>$request->description,
+            'plan_id'=>$request->plan_id,
+            'drone_id'=>$request->drone_id,
+        ]);
+        return response()->json(['message'=>'Instruction has been created.', 'data'=>$instruction],200);
     }
 
     /**
@@ -50,9 +61,9 @@ class InstructionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Instruction $instruction)
+    public function update(Request $request, $instruction)
     {
-        //
+       
     }
 
     /**

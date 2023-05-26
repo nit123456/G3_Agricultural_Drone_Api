@@ -4,8 +4,11 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DroneController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FarmController;
+use App\Http\Controllers\InstructionController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\PlanController;
+use App\Models\Instruction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,8 +28,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/logout',[AuthenticationController::class, 'logout']);
-    Route::get('/drones' , [DroneController::class,'index']);
-    Route::post('/drone' , [DroneController::class,'store']);
 });
 
 // account routes
@@ -41,6 +42,8 @@ Route::get('/drones/{codename}/{location}' , [DroneController::class,'showDroneL
 Route::get('/maps' , [MapController::class,'index']);
 Route::post('/map' , [MapController::class,'store']);
 
+Route::get('/drones' , [DroneController::class,'index']);
+Route::post('/drone' , [DroneController::class,'store']);
 // farms routes
 Route::get('/farms' , [FarmController::class,'index']);
 Route::post('/farm' , [FarmController::class,'store']);
@@ -49,5 +52,10 @@ Route::post('/user', [UserController::class, 'store']);
 Route::get('/users', [UserController::class, 'index']);
 
 Route::get('/plans', [PlanController::class, 'index']);
-Route::post('/plan', [PlanController::class, 'store']);
+Route::post('/plans/plan', [PlanController::class, 'store']);
+
+Route::put('/drones/{name}', [InstructionController::class, 'update']);
+
+Route::get('/locations', [LocationController::class, 'index']);
+Route::post('/location', [LocationController::class, 'store']);
 
