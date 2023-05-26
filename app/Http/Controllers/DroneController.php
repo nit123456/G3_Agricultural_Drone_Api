@@ -37,14 +37,14 @@ class DroneController extends Controller
     }
 
     public function getDroneBy($codeName){
-        $drone = Drone::where('codename', $codeName)->first();
+        $drone = Drone::where('codeName', $codeName)->first();
         if($drone){
             return response()->json(['message' =>'This is drone','success'=> true, 'data' =>$drone],201);
         }
         return response()->json(['message' =>'Drone not found','success'=> false, 'data' =>$drone],201);
     }
     public function showDroneLocation($codeName, $location){
-        $drone = Drone::where('codename', $codeName)->first();
+        $drone = Drone::where('codeName', $codeName)->first();
         if($drone){
             $location = Location::find($drone->location_id);
             return response()->json(['message' =>'This is drone location','success'=> true, 'data' => $location],201);
@@ -57,5 +57,17 @@ class DroneController extends Controller
         if($drone){
             return response()->json(['message'=>'Drone has been find.', 'data'=>$drone], 200);
         }
+    }
+
+    public function updateDrone($id){
+        $drone= Drone::find($id);
+        $drone->codeName= request('codeName');
+        $drone->type=request('type');
+        $drone->strength= request('strength');
+        $drone->battery= request('battery');
+        $drone->location_id= request('location_id');
+        $drone->user_id= request('user_id');
+        $drone->save();
+        return $drone;
     }
 }
