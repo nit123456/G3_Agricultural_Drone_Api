@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use App\Models\Instruction;
 use Illuminate\Http\Request;
 
@@ -29,6 +29,19 @@ class InstructionController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            "codename" => 'required',
+            "latitude" => 'required',
+            "longitude" => 'required',
+            "plant" => 'required',
+            "image" => 'required',
+            "map_id" => 'required',
+            "user_id" => 'required'
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
     }
 
     /**

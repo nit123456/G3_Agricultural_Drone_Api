@@ -14,7 +14,8 @@ class Farm extends Model
         'latitude',
         'longitude',
         'plant',
+        'image',
         'map_id',
-        'farmer_id',
+        'user_id',
     ];
 }
