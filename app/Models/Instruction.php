@@ -10,7 +10,7 @@ class Instruction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'codename',
+        'codeName',
         'description',
         'plan_id',
         'drone_id'

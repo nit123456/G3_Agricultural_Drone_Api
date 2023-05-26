@@ -12,7 +12,11 @@ class PlanController extends Controller
      */
     public function index()
     {
-        //
+        $plans= Plan::all();
+        if ($plans->isNotEmpty()){
+            return response()->json(['message'=>'There are all plans', 'data'=>$plans],200);
+        }
+        return response()->json(['message'=>'There is no plan.']);
     }
 
     /**
@@ -20,7 +24,7 @@ class PlanController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -28,7 +32,13 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $plan= Plan::create([
+            'name'=>$request->name,
+            'type'=>$request->type,
+            'map_id'=>$request->map_id,
+            'user_id'=>$request->user_id,
+        ]);
+        return response()->json(['message'=>'Plan has been created.', 'data'=>$plan],200);
     }
 
     /**

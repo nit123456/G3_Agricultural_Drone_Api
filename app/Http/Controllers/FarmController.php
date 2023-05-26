@@ -39,7 +39,7 @@ class FarmController extends Controller
             return $validator->errors();
         }
         $farm = Farm::create([
-            "codename" => $request->codename,
+            "codeName" => $request->codeName,
             "latitude" => $request->latitude,
             "longitude" => $request->longitude,
             "plant" => $request->plant,

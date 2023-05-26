@@ -25,26 +25,26 @@ class DroneController extends Controller
     {
         //
         $drone = Drone::create([
-            'codename' => $request->codename,
+            'codeName' => $request->codeName,
             'type' => $request->type,
             'strength' => $request->strength,
             'battery' => $request->battery,
             'location_id' => $request->location_id,
-            'farmer_id' => $request->farmer_id,
+            'user_id' => $request->user_id,
         ]);
 
         return response()->json(['message' =>'You created a new drone.', 'data' =>$drone],201);
     }
 
-    public function getDroneBy($codename){
-        $drone = Drone::where('codename', $codename)->first();
+    public function getDroneBy($codeName){
+        $drone = Drone::where('codename', $codeName)->first();
         if($drone){
             return response()->json(['message' =>'This is drone','success'=> true, 'data' =>$drone],201);
         }
         return response()->json(['message' =>'Drone not found','success'=> false, 'data' =>$drone],201);
     }
-    public function showDroneLocation($codename, $location){
-        $drone = Drone::where('codename', $codename)->first();
+    public function showDroneLocation($codeName, $location){
+        $drone = Drone::where('codename', $codeName)->first();
         if($drone){
             $location = Location::find($drone->location_id);
             return response()->json(['message' =>'This is drone location','success'=> true, 'data' => $location],201);

@@ -10,7 +10,7 @@ class Farm extends Model
     use HasFactory;
 
     protected $fillable = [
-        'codename',
+        'codeName',
         'latitude',
         'longitude',
         'plant',

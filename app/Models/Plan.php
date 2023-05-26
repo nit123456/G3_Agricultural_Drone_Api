@@ -13,6 +13,6 @@ class Plan extends Model
         'name',
         'type',
         'map_id',
-        'farm_id',
+        'user_id',
     ];
 }
