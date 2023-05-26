@@ -44,6 +44,7 @@ Route::post('/map' , [MapController::class,'store']);
 
 Route::get('/drones' , [DroneController::class,'index']);
 Route::post('/drone' , [DroneController::class,'store']);
+Route::get('/drone/{id}', [DroneController::class, 'droneByID']);
 // farms routes
 Route::get('/farms' , [FarmController::class,'index']);
 Route::post('/farm' , [FarmController::class,'store']);
@@ -54,7 +55,8 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/plans', [PlanController::class, 'index']);
 Route::post('/plans/plan', [PlanController::class, 'store']);
 
-Route::put('/drones/{name}', [InstructionController::class, 'update']);
+Route::put('/instruction/{id}', [InstructionController::class, 'update']);
+Route::post('/instruction', [InstructionController::class, 'store']);
 
 Route::get('/locations', [LocationController::class, 'index']);
 Route::post('/location', [LocationController::class, 'store']);

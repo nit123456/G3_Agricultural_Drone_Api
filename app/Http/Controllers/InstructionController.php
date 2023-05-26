@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Drone;
 use App\Models\Instruction;
 use App\Models\Plan;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class InstructionController extends Controller
     public function store(Request $request)
     {
         $instruction= Instruction::create([
-            'condName'=>$request->codeName,
+            'codeName'=>$request->codeName,
             'description'=>$request->description,
             'plan_id'=>$request->plan_id,
             'drone_id'=>$request->drone_id,
@@ -61,11 +62,16 @@ class InstructionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $instruction)
+    public function update($id, $name)
     {
-       
-    }
-
+        $instruction = Instruction::find($id);
+        $instruction->codeName= request('codeName');
+        $instruction->description= request('description');
+        $instruction->plan_id= request('plan_id');
+        $instruction->drone_id= request('drone_id');
+        $instruction->save();
+        return response()->json(['message'=>'Instruction has been updated.'],200);
+}
     /**
      * Remove the specified resource from storage.
      */
