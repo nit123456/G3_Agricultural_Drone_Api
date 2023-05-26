@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Drone;
 use App\Models\Instruction;
 use App\Models\Plan;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class InstructionController extends Controller
@@ -34,6 +34,17 @@ class InstructionController extends Controller
      */
     public function store(Request $request)
     {
+        //
+        $validator = Validator::make($request->all(), [
+            "codename" => 'required',
+            "description" =>'required',
+            "plan_id" => 'required',
+            'drone_id' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
         $instruction= Instruction::create([
             'codeName'=>$request->codeName,
             'description'=>$request->description,

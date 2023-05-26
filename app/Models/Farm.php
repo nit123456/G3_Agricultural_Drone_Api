@@ -14,6 +14,7 @@ class Farm extends Model
         'latitude',
         'longitude',
         'plant',
+        'image',
         'map_id',
         'user_id',
     ];

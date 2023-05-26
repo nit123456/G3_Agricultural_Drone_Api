@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('latitude');
             $table->float('longitude');
             $table->string('plant');
+            $table->string('image');
             $table->unsignedBigInteger('map_id');
             $table->foreign('map_id')->references('id')->on('maps')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
