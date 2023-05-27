@@ -13,7 +13,11 @@ class MapController extends Controller
     public function index()
     {
         $map = Map::all();
-        return response()->json(['massage'=>'List of maps','success'=>true,'data'=>$map],201);
+        if ($map->isNotEmpty()){
+            return response()->json(['massage'=>'There are all maps','success'=>true,'data'=>$map],201);
+        }
+        return response()->json(['message'=>'There is no map']);
+        
     }
 
     /**

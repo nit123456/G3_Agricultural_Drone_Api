@@ -41,7 +41,7 @@ class PlanController extends Controller
             'map_id'=>$request->map_id,
             'user_id'=>$request->user_id,
         ]);
-        return response()->json(['message'=>'Plan is created.', 'data'=>$plan],200);
+        return response()->json(['message'=>'Plan has been created.', 'data'=>$plan],200);
     }
 
     
