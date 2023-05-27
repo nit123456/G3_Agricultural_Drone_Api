@@ -20,17 +20,6 @@ class InstructionController extends Controller
         return response()->json(['message'=>'There are no instruction.']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
@@ -38,7 +27,6 @@ class InstructionController extends Controller
             "codename" => 'required',
             "description" =>'required',
             "plan_id" => 'required',
-            'drone_id' => 'required',
 
         ]);
         if ($validator->fails()) {
@@ -54,34 +42,34 @@ class InstructionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Instruction $instruction)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Instruction $instruction)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $instruction)
     {
+        $validator = Validator::make($request->all(), [
+            "codename" => 'required',
+            "description" =>'required',
+            "plan_id" => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+        $data = Instruction::find($instruction);
+        $data->update([
+            'condName'=>$request->codeName,
+            'description'=>$request->description,
+            'plan_id'=>$request->plan_id,
+            'drone_id'=>$request->drone_id,
+        ]);
+        return response()->json(['message'=>'Instruction has been created.', 'data'=> $data],200);
        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Instruction $instruction)
+    public function getPlanBy($codeName)
     {
         //
+        $instructions= Instruction::where('codeName', $codeName)->first();
+        return response()->json(['message'=>'There are all instructions.', 'data'=>$instructions],200);
     }
 }

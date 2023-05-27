@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LocationController extends Controller
 {
@@ -19,19 +20,15 @@ class LocationController extends Controller
         return response()->json(['message'=>'There is no location.']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'latitude' => 'required',
+            'longitude' =>'required',
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
         $location= Location::create([
             'latitude'=>$request->latitude,
             'longitude'=>$request->longitude,
@@ -39,35 +36,37 @@ class LocationController extends Controller
         return response()->json(['message'=>'Location has been created.', 'data'=>$location],200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Location $location)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Location $location)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Location $location)
-    {
-        //
+        $validator = Validator::make($request->all(), [
+            'latitude' => 'required',
+            'longitude' =>'required',
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+        $location = Location::find($id);
+        if(!$location){
+            return response()->json(['message'=>'Location not found'],200);
+        }
+        $location->update([
+            'latitude'=>$request->latitude,
+            'longitude'=>$request->longitude,
+        ]);
+        return response()->json(['message'=>'Location has been updated.', 'data'=>$location],200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Location $location)
+    public function destroy($id)
     {
         //
+        $location = Location::find($id);
+        if(!$location){
+            return response()->json(['message'=>'Location not found'],200);
+        }
+        $location->destroy($id);
+        return response()->json(['message'=>'Location has been deleted.'],200);
     }
 }
