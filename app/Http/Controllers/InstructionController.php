@@ -25,7 +25,7 @@ class InstructionController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            "codename" => 'required',
+            "codeName" => 'required',
             "description" =>'required',
             "plan_id" => 'required',
 
@@ -41,21 +41,12 @@ class InstructionController extends Controller
         ]);
         return response()->json(['message'=>'Instruction has been created.', 'data'=>$instruction],200);
     }
+    public function getPlanByCodename($codeName){
+        $plan = Instruction::where('codeName',$codeName)->get();
+        if (!$plan){
+            return response()->json(['message'=>'Plan does not exist'],404);
+        }
+        return response()->json(['message'=>'This plan the plan', 'data'=>$plan],200);
+    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update($id)
-    {
-        $instruction = Instruction::find($id);
-        $instruction->codeName= request('codeName');
-        $instruction->description= request('description');
-        $instruction->plan_id= request('plan_id');
-        $instruction->drone_id= request('drone_id');
-        $instruction->save();
-        return response()->json(['message'=>'Instruction has been updated.'],200);
-}
-    /**
-     * Remove the specified resource from storage.
-     */
 }

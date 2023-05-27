@@ -15,7 +15,10 @@ class DroneController extends Controller
     {
         //
         $drones = Drone::all();
-        return response()->json(['message'=> 'List of drone', 'success'=>true,'data'=>$drones],201);
+        if ($drones->isEmpty()){
+            return response()->json(['message' => 'There are no drones'], 404);
+        }
+        return response()->json(['message' => 'There are all drones', 'success' => true, 'data' => $drones], 201);
     }
 
     /**
@@ -27,47 +30,52 @@ class DroneController extends Controller
         $drone = Drone::create([
             'codeName' => $request->codeName,
             'type' => $request->type,
+            'mode' => $request->mode,
             'strength' => $request->strength,
             'battery' => $request->battery,
             'location_id' => $request->location_id,
             'user_id' => $request->user_id,
         ]);
 
-        return response()->json(['message' =>'You created a new drone.', 'data' =>$drone],201);
+        return response()->json(['message' => 'You created a new drone.', 'data' => $drone], 201);
     }
 
-    public function getDroneByCodeName($codeName){
+    public function getDroneByCodeName($codeName)
+    {
         $drone = Drone::where('codeName', $codeName)->first();
-        if($drone){
-            return response()->json(['message' =>'This is drone','success'=> true, 'data' =>$drone],201);
+        if ($drone) {
+            return response()->json(['message' => 'Drone has found', 'success' => true, 'data' => $drone], 201);
         }
-        return response()->json(['message' =>'Drone not found'],201);
+        return response()->json(['message' => 'Drone is not found'], 404);
     }
-    public function showDroneLocation($codeName, $location){
+    public function showDroneLocation($codeName, $location)
+    {
         $drone = Drone::where('codeName', $codeName)->first();
-        if($drone){
+        if ($drone) {
             $location = Location::find($drone->location_id);
-            return response()->json(['message' =>'This is drone location','success'=> true, 'data' => $location],201);
+            return response()->json(['message' => 'This is drone location', 'success' => true, 'data' => $location], 201);
         }
-        return response()->json(['message' =>'Drone not found'],201);
+        return response()->json(['message' => 'Drone not found'], 201);
     }
 
-    public function droneByID($id){
+    public function droneByID($id)
+    {
         $drone = Drone::find($id);
-        if($drone){
-            return response()->json(['message'=>'Drone has been find.', 'data'=>$drone], 200);
+        if ($drone) {
+            return response()->json(['message' => 'Drone has been find.', 'data' => $drone], 200);
         }
     }
 
-    public function updateDrone($id){
-        $drone= Drone::find($id);
-        $drone->codeName= request('codeName');
-        $drone->type=request('type');
-        $drone->strength= request('strength');
-        $drone->battery= request('battery');
-        $drone->location_id= request('location_id');
-        $drone->user_id= request('user_id');
-        $drone->save();
-        return $drone;
+    public function runModel($codeName)
+    {
+        $drone = Drone::where('codeName', $codeName)->first();
+
+        if (!$drone) {
+            return response()->json(['message' => 'Drone not found'], 404);
+        }
+
+        $drone->update(['mode' => 'running mode']);
+
+        return response()->json(['message' => 'Drone mode updated successfully','data'=>$drone], 200);
     }
 }

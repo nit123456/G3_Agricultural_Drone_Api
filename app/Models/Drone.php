@@ -11,6 +11,7 @@ class Drone extends Model
     protected $fillable = [
         'codeName',
         'type',
+        'mode',
         'strength',
         'battery',
         'location_id',

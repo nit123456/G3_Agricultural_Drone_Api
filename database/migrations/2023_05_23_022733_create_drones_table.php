@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('codeName');
             $table->string('type');
+            $table->string('mode');
             $table->integer('strength');
             $table->integer('battery');
             $table->unsignedBigInteger('location_id');

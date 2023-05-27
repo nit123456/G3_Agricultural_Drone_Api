@@ -50,6 +50,8 @@ class FarmController extends Controller
         return response()->json(['massage' => 'Create new farm successfully', 'success' => true, 'data' => $farm], 201);
     }
 
+    // getImage()
+
     public function getImage()
     {
         $farms = Farm::select('codeName', 'image')->get();
@@ -63,9 +65,9 @@ class FarmController extends Controller
         $id = Map::select('id')->where('name', $map)->first()->id;
         $image = Farm::select('codeName', 'image')->where('id', $farm_id)->where('map_id', $id)->get();
         if ($image->isEmpty()) {
-            return response()->json(['massage' => "Farm not fount", 'success' => false], 201);
+            return response()->json(['massage' => "There are no image", 'success' => false], 201);
         }
-        return response()->json(['massage' => 'This is all photos', 'success' => true, 'data' =>  $image], 201);
+        return response()->json(['massage' => 'This is all image', 'success' => true, 'data' =>  $image], 201);
     }
     public function deleteImageBy(string $map, $farm_id)
     {
@@ -75,7 +77,7 @@ class FarmController extends Controller
         if ($images->isEmpty()) {
             return response()->json(['massage' => "Farm not fount", 'success' => false], 201);
         }
-        $image->update(['image' => null]);
+        $image->update(['image' => "null"]);
         return response()->json(['massage' => "Image of farm ID $farm_id has been deleted", 'success' => true], 201);
 
         
