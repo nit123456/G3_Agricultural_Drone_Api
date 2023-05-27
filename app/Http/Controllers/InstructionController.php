@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Validator;
+
 use App\Models\Instruction;
 use App\Models\Plan;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class InstructionController extends Controller
@@ -33,7 +34,7 @@ class InstructionController extends Controller
             return $validator->errors();
         }
         $instruction= Instruction::create([
-            'condName'=>$request->codeName,
+            'codeName'=>$request->codeName,
             'description'=>$request->description,
             'plan_id'=>$request->plan_id,
             'drone_id'=>$request->drone_id,
@@ -44,32 +45,17 @@ class InstructionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $instruction)
+    public function update($id)
     {
-        $validator = Validator::make($request->all(), [
-            "codename" => 'required',
-            "description" =>'required',
-            "plan_id" => 'required',
-
-        ]);
-        if ($validator->fails()) {
-            return $validator->errors();
-        }
-        $data = Instruction::find($instruction);
-        $data->update([
-            'condName'=>$request->codeName,
-            'description'=>$request->description,
-            'plan_id'=>$request->plan_id,
-            'drone_id'=>$request->drone_id,
-        ]);
-        return response()->json(['message'=>'Instruction has been created.', 'data'=> $data],200);
-       
-    }
-
-    public function getPlanBy($codeName)
-    {
-        //
-        $instructions= Instruction::where('codeName', $codeName)->first();
-        return response()->json(['message'=>'There are all instructions.', 'data'=>$instructions],200);
-    }
+        $instruction = Instruction::find($id);
+        $instruction->codeName= request('codeName');
+        $instruction->description= request('description');
+        $instruction->plan_id= request('plan_id');
+        $instruction->drone_id= request('drone_id');
+        $instruction->save();
+        return response()->json(['message'=>'Instruction has been updated.'],200);
+}
+    /**
+     * Remove the specified resource from storage.
+     */
 }

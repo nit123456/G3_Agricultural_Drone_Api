@@ -51,4 +51,23 @@ class DroneController extends Controller
         }
         return response()->json(['message' =>'Drone not found'],201);
     }
+
+    public function droneByID($id){
+        $drone = Drone::find($id);
+        if($drone){
+            return response()->json(['message'=>'Drone has been find.', 'data'=>$drone], 200);
+        }
+    }
+
+    public function updateDrone($id){
+        $drone= Drone::find($id);
+        $drone->codeName= request('codeName');
+        $drone->type=request('type');
+        $drone->strength= request('strength');
+        $drone->battery= request('battery');
+        $drone->location_id= request('location_id');
+        $drone->user_id= request('user_id');
+        $drone->save();
+        return $drone;
+    }
 }

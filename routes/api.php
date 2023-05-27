@@ -77,4 +77,34 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/register', [AuthenticationController::class, 'register']);
 
 
+<<<<<<< HEAD
+=======
+//drones routes
+
+Route::get('/drones/{codename}' , [DroneController::class,'getDroneBy']);
+Route::get('/drones/{codename}/{location}' , [DroneController::class,'showDroneLocation']);
+// maps
+Route::get('/maps' , [MapController::class,'index']);
+Route::post('/map' , [MapController::class,'store']);
+
+Route::get('/drones' , [DroneController::class,'index']);
+Route::post('/drone' , [DroneController::class,'store']);
+Route::get('/drone/{id}', [DroneController::class, 'droneByID']);
+Route::put('/drone/{id}', [DroneController::class, 'updateDrone']);
+// farms routes
+Route::get('/farms' , [FarmController::class,'index']);
+Route::post('/farm' , [FarmController::class,'store']);
+
+Route::post('/user', [UserController::class, 'store']);
+Route::get('/users', [UserController::class, 'index']);
+
+Route::get('/plans', [PlanController::class, 'index']);
+Route::post('/plans/plan', [PlanController::class, 'store']);
+
+Route::put('/instruction/{id}', [InstructionController::class, 'update']);
+Route::post('/instruction', [InstructionController::class, 'store']);
+
+Route::get('/locations', [LocationController::class, 'index']);
+Route::post('/location', [LocationController::class, 'store']);
+>>>>>>> 71fd86bc53ae5d36493ae41cc9db111b827e91b2
 
