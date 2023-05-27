@@ -28,6 +28,61 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/logout',[AuthenticationController::class, 'logout']);
+    //drones routes
+Route::get('/drones' , [DroneController::class,'index']);
+Route::post('/drones' , [DroneController::class,'store']);
+Route::get('/drones/{codename}' , [DroneController::class,'getDroneByCodeName']);
+Route::get('/drones/{codename}/{location}' , [DroneController::class,'showDroneLocation']);
+
+// maps
+Route::get('/maps' , [MapController::class,'index']);
+Route::post('/maps' , [MapController::class,'store']);
+Route::put('/maps/{id}' , [MapController::class,'update']);
+Route::delete('/maps/{id}' , [MapController::class,'destroy']);
+
+// farms routes
+Route::get('/farms' , [FarmController::class,'index']);
+Route::post('/farms' , [FarmController::class,'store']);
+Route::put('/farms/{id}' , [FarmController::class,'update']);
+Route::delete('/farms/{id}' , [FarmController::class,'delete']);
+Route::get('/maps/{map}/$farm_id' , [FarmController::class,'getImage']);
+Route::post('/maps/{map}/$farm_id' , [FarmController::class,'setImageBy']);
+Route::put('/maps/{map}/$farm_id' , [FarmController::class,'setImageBy']);
+Route::delete('/maps/{map}/$farm_id' , [FarmController::class,'deleteImageBy']);
+
+// user routes
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
+
+// plan routes
+Route::get('/plans', [PlanController::class, 'index']);
+Route::post('/plans/plan', [PlanController::class, 'store']);
+Route::put('/plans/{id}', [PlanController::class, 'update']);
+Route::delete('/plans/{id}', [PlanController::class, 'destroy']);
+
+// instruction routes
+Route::get('/instructions', [InstructionController::class, 'index']);
+Route::put('/drones/{instruction}', [InstructionController::class, 'update']);
+Route::get('/plans/{codeName}', [InstructionController::class, 'getPlanBy']);
+
+//location routes
+Route::get('/locations', [LocationController::class, 'index']);
+Route::post('/locations', [LocationController::class, 'store']);
+Route::put('/locations/{id}', [LocationController::class, 'update']);
+Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
+
+});
+
+Route::post('/login', [AuthenticationController::class, 'login']);
+Route::post('/register', [AuthenticationController::class, 'register']);
+
+//drones routes
+
+Route::get('/drones/{codename}' , [DroneController::class,'getDroneBy']);
+Route::get('/drones/{codename}/{location}' , [DroneController::class,'showDroneLocation']);
+// maps
+Route::get('/maps' , [MapController::class,'index']);
+Route::post('/map' , [MapController::class,'store']);
 
     Route::get('/drones' , [DroneController::class,'index']);
     Route::post('/drone' , [DroneController::class,'store']);
@@ -51,21 +106,6 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::put('/instruction/{id}', [InstructionController::class, 'update']);
     Route::post('/instruction', [InstructionController::class, 'store']);
 
-    Route::get('/locations', [LocationController::class, 'index']);
-    Route::post('/location', [LocationController::class, 'store']);
-});
-
-Route::post('/login', [AuthenticationController::class, 'login']);
-Route::post('/register', [AuthenticationController::class, 'register']);
-
-
-
-// farms routes
-
-
-
-
-
-
-
+Route::get('/locations', [LocationController::class, 'index']);
+Route::post('/location', [LocationController::class, 'store']);
 

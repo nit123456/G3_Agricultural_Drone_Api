@@ -21,17 +21,6 @@ class InstructionController extends Controller
         return response()->json(['message'=>'There are no instruction.']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
@@ -39,7 +28,6 @@ class InstructionController extends Controller
             "codename" => 'required',
             "description" =>'required',
             "plan_id" => 'required',
-            'drone_id' => 'required',
 
         ]);
         if ($validator->fails()) {
@@ -55,25 +43,9 @@ class InstructionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Instruction $instruction)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Instruction $instruction)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update($id, $name)
+    public function update($id)
     {
         $instruction = Instruction::find($id);
         $instruction->codeName= request('codeName');
@@ -86,8 +58,4 @@ class InstructionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Instruction $instruction)
-    {
-        //
-    }
 }

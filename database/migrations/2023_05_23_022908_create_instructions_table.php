@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->unsignedBigInteger('plan_id');
             $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
-            $table->unsignedBigInteger('drone_id');
+            $table->unsignedBigInteger('drone_id')->nullable()->default(null);
             $table->foreign('drone_id')->references('id')->on('drones')->onDelete('cascade');
             $table->timestamps();
         });

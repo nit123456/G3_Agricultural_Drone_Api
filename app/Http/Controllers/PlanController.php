@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Plan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PlanController extends Controller
 {
@@ -20,56 +21,64 @@ class PlanController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name'=>'required',
+            'type'=>'required',
+            'map_id'=>'required',
+            'user_id'=>'required',
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
         $plan= Plan::create([
             'name'=>$request->name,
             'type'=>$request->type,
             'map_id'=>$request->map_id,
             'user_id'=>$request->user_id,
         ]);
-        return response()->json(['message'=>'Plan has been created.', 'data'=>$plan],200);
+        return response()->json(['message'=>'Plan is created.', 'data'=>$plan],200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Plan $plan)
+    
+    public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name'=>'required',
+            'type'=>'required',
+            'map_id'=>'required',
+            'user_id'=>'required',
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+        $plan = Plan::find($id);
+        if (!$plan) {
+            return response()->json(['message'=>'Plan does not exist'],201);
+        }
+        $plan->update([
+            'name'=>$request->name,
+            'type'=>$request->type,
+            'map_id'=>$request->map_id,
+            'user_id'=>$request->user_id,
+        ]);
+        return response()->json(['message'=>'Plan is updated.', 'data'=>$plan],200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Plan $plan)
+    public function destroy($id)
     {
         //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Plan $plan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Plan $plan)
-    {
-        //
+        $plan = Plan::find($id);
+        if (!$plan) {
+            return response()->json(['message'=>'Plan does not exist'],201);
+        }
+        $plan->destroy($id);
+        return response()->json(['message'=>'Plan is updated.', 'data'=>$plan],200);
     }
 }

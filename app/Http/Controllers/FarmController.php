@@ -26,7 +26,7 @@ class FarmController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            "codename" => 'required',
+            "codeName" => 'required',
             "latitude" => 'required',
             "longitude" => 'required',
             "plant" => 'required',
@@ -52,16 +52,16 @@ class FarmController extends Controller
 
     public function getImage()
     {
-        $farms = Farm::select('codename', 'image')->get();
+        $farms = Farm::select('codeName', 'image')->get();
         if ($farms->isEmpty()) {
-            return response()->json(['massage' => "Don't has farm yet", 'success' => false], 201);
+            return response()->json(['massage' => "Farm not found", 'success' => false], 201);
         }
         return response()->json(['massage' => 'List of maps photos', 'success' => true, 'data' => $farms], 201);
     }
     public function getImageBy(string $map, $farm_id)
     {
         $id = Map::select('id')->where('name', $map)->first()->id;
-        $image = Farm::select('codename', 'image')->where('id', $farm_id)->where('map_id', $id)->get();
+        $image = Farm::select('codeName', 'image')->where('id', $farm_id)->where('map_id', $id)->get();
         if ($image->isEmpty()) {
             return response()->json(['massage' => "Farm not fount", 'success' => false], 201);
         }
@@ -69,8 +69,8 @@ class FarmController extends Controller
     }
     public function deleteImageBy(string $map, $farm_id)
     {
-        $id = Map::select('id')->where('name', $map)->first()->id;
-        $image = Farm::select('image')->where('id', $farm_id)->where('map_id', $id);
+        $map_id = Map::select('id')->where('name', $map)->first()->id;
+        $image = Farm::select('image')->where('id', $farm_id)->where('map_id', $map_id);
         $images = $image->get();
         if ($images->isEmpty()) {
             return response()->json(['massage' => "Farm not fount", 'success' => false], 201);
@@ -79,5 +79,51 @@ class FarmController extends Controller
         return response()->json(['massage' => "Image of farm ID $farm_id has been deleted", 'success' => true], 201);
 
         
+    }
+    public function setImageBy(Request $request, string $map, $farm_id)
+    {
+        $map_id = Map::select('id')->where('name', $map)->first()->id;
+        $image = Farm::select('image')->where('id', $farm_id)->where('map_id', $map_id);
+        $image->update(['image' => $request->image]);
+        return response()->json(['massage' => "You add image successfully", 'success' => true,'data'=> $image], 201);
+        
+    }
+
+    public function update(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            "codeName" => 'required',
+            "latitude" => 'required',
+            "longitude" => 'required',
+            "plant" => 'required',
+            "image" => 'required',
+            "map_id" => 'required',
+            "user_id" => 'required'
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+        $farm = Farm::find($id);
+        if (!$farm){
+            return response()->json(['message' => 'Farm does not exist'],201);
+        }
+        $farm->update([
+            "codeName" => $request->codeName,
+            "latitude" => $request->latitude,
+            "longitude" => $request->longitude,
+            "plant" => $request->plant,
+            "image" => $request->image,
+            "map_id" => $request->map_id,
+            "user_id" => $request->user_id
+        ]);
+        return response()->json(['massage' => 'Create new farm successfully', 'success' => true, 'data' => $farm], 201);
+    }
+    public function delete($id){
+        $farm = Farm::find($id);
+        if (!$farm){
+            return response()->json(['massage' => 'Farm not found'], 201);
+        }
+        $farm->destroy($id);
+        return response()->json(['message'=>'Farm has been deleted.'],200);
     }
 }

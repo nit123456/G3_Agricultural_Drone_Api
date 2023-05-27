@@ -36,12 +36,12 @@ class DroneController extends Controller
         return response()->json(['message' =>'You created a new drone.', 'data' =>$drone],201);
     }
 
-    public function getDroneBy($codeName){
+    public function getDroneByCodeName($codeName){
         $drone = Drone::where('codeName', $codeName)->first();
         if($drone){
             return response()->json(['message' =>'This is drone','success'=> true, 'data' =>$drone],201);
         }
-        return response()->json(['message' =>'Drone not found','success'=> false, 'data' =>$drone],201);
+        return response()->json(['message' =>'Drone not found'],201);
     }
     public function showDroneLocation($codeName, $location){
         $drone = Drone::where('codeName', $codeName)->first();
@@ -49,7 +49,7 @@ class DroneController extends Controller
             $location = Location::find($drone->location_id);
             return response()->json(['message' =>'This is drone location','success'=> true, 'data' => $location],201);
         }
-        return response()->json(['message' =>'Drone not found','success'=> false, 'data' =>$drone],201);
+        return response()->json(['message' =>'Drone not found'],201);
     }
 
     public function droneByID($id){
