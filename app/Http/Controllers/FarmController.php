@@ -79,19 +79,28 @@ class FarmController extends Controller
         }
         $image->update(['image' => "null"]);
         return response()->json(['massage' => "Image of farm ID $farm_id has been deleted", 'success' => true], 201);
-
-        
     }
     public function setImageBy(Request $request, string $map, $farm_id)
     {
+        $validator = Validator::make($request->all(), [
+            "image" => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
         $map_id = Map::select('id')->where('name', $map)->first()->id;
-        $image = Farm::select('image')->where('id', $farm_id)->where('map_id', $map_id);
-        $image->update(['image' => $request->image]);
-        return response()->json(['massage' => "You add image successfully", 'success' => true,'data'=> $image], 201);
-        
+        $farm = Farm::where('id', $farm_id)->where('map_id', $map_id);
+        $imaages= $farm->get();
+        if ($imaages->isEmpty()) {
+            return response()->json(['message' => 'There are no images'], 404);
+        }
+        $farm->update(['image' => $request->image]);
+        return response()->json(['massage' => "You add new image successfully", 'success' => true, 'data' =>  $imaages], 201);
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             "codeName" => 'required',
             "latitude" => 'required',
@@ -106,8 +115,8 @@ class FarmController extends Controller
             return $validator->errors();
         }
         $farm = Farm::find($id);
-        if (!$farm){
-            return response()->json(['message' => 'Farm does not exist'],201);
+        if (!$farm) {
+            return response()->json(['message' => 'Farm does not exist'], 201);
         }
         $farm->update([
             "codeName" => $request->codeName,
@@ -120,12 +129,13 @@ class FarmController extends Controller
         ]);
         return response()->json(['massage' => 'Create new farm successfully', 'success' => true, 'data' => $farm], 201);
     }
-    public function delete($id){
+    public function delete($id)
+    {
         $farm = Farm::find($id);
-        if (!$farm){
+        if (!$farm) {
             return response()->json(['massage' => 'Farm not found'], 201);
         }
         $farm->destroy($id);
-        return response()->json(['message'=>'Farm has been deleted.'],200);
+        return response()->json(['message' => 'Farm has been deleted.'], 200);
     }
 }

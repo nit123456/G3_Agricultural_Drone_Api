@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/plans/plan', [PlanController::class, 'store']);
     Route::put('/drones/{codeName}', [DroneController::class, 'runModel']);
     Route::delete('/maps/{map}/{farm_id}', [FarmController::class, 'deleteImageBy']);
+<<<<<<< HEAD
     // drones routes
     Route::post('/drones', [DroneController::class, 'store']);
     // maps
@@ -66,13 +67,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // instruction routes
     Route::get('/instructions', [InstructionController::class, 'index']);
     Route::post('/instructions ', [InstructionController::class, 'store']);
+=======
+    Route::get('/instructions', [InstructionController::class, 'index']);
+>>>>>>> 30f52e73f580411c044fadf9f67b807bb5bee8ba
     Route::get('/plans/{codeName}', [InstructionController::class, 'getPlanByCodeName']);
-
-    //location routes
-    Route::get('/locations', [LocationController::class, 'index']);
-    Route::post('/locations', [LocationController::class, 'store']);
-    Route::put('/locations/{id}', [LocationController::class, 'update']);
-    Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
+    Route::post('/maps/{map}/{farm_id}', [FarmController::class, 'setImageBy']);
+    Route::put('/drone/{id}/', [DroneController::class, 'update']);
 });
 
 

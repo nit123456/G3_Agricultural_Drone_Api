@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Drone;
 use App\Models\Location;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class DroneController extends Controller
 {
     /**
@@ -27,6 +27,19 @@ class DroneController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'codeName' =>'required',
+            'type' =>'required',
+            'mode' =>'required',
+            'strength' =>'required',
+            'battery' =>'required',
+            'location_id' =>'required',
+            'user_id' =>'required',
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
         $drone = Drone::create([
             'codeName' => $request->codeName,
             'type' => $request->type,
@@ -77,5 +90,35 @@ class DroneController extends Controller
         $drone->update(['mode' => 'running mode']);
 
         return response()->json(['message' => 'Drone mode updated successfully','data'=>$drone], 200);
+    }
+    public function update(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'codeName' =>'required',
+            'type' =>'required',
+            'mode' =>'required',
+            'strength' =>'required',
+            'battery' =>'required',
+            'location_id' =>'required',
+            'user_id' =>'required',
+
+        ]);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+        $drone = Drone::find($id);
+        return $drone;
+        if ($drone->isEmpty()) {
+            return response()->json(['message'=>"Drone not found"]);
+        }
+        $drone->update([
+            'codeName' => $request->codeName,
+            'type' => $request->type,
+            'mode' => $request->mode,
+            'strength' => $request->strength,
+            'battery' => $request->battery,
+            'location_id' => $request->location_id,
+            'user_id' => $request->user_id,
+        ]);
+        return response()->json(['message'=>"Drone updated",'data'=>$drone],201);
     }
 }
