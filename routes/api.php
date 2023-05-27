@@ -39,44 +39,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/drones/{codeName}', [DroneController::class, 'runModel']);
     Route::delete('/maps/{map}/{farm_id}', [FarmController::class, 'deleteImageBy']);
     Route::get('/instructions', [InstructionController::class, 'index']);
-
-    // drones routes
-    Route::post('/drones', [DroneController::class, 'store']);
-    // Route::put('/drones/{codeName}/', [DroneController::class, 'updateMode']);
-
-    // maps
-    // Route::get('/maps', [MapController::class, 'index']);
-    Route::post('/maps', [MapController::class, 'store']);
-    Route::put('/maps/{id}', [MapController::class, 'update']);
-    Route::delete('/maps/{id}', [MapController::class, 'destroy']);
-
-    // farms routes
-    Route::get('/farms', [FarmController::class, 'index']);
-    Route::post('/farms', [FarmController::class, 'store']);
-    Route::put('/farms/{id}', [FarmController::class, 'update']);
-    Route::delete('/farms/{id}', [FarmController::class, 'delete']);
-    Route::get('/maps/{map}/{farm_id}', [FarmController::class, 'getImageBy']);
-    Route::put('/maps/{map}/farm_id', [FarmController::class, 'setImageBy']);
-
-    // user routes
-    Route::get('/users', [UserController::class, 'index']);
-    Route::post('/users', [UserController::class, 'store']);
-
-    // plan routes
-    Route::get('/plans', [PlanController::class, 'index']);
-   
-    Route::put('/plans/{id}', [PlanController::class, 'update']);
-    Route::delete('/plans/{id}', [PlanController::class, 'destroy']);
-
-    // instruction routes
-    Route::post('/instructions ', [InstructionController::class, 'store']);
     Route::get('/plans/{codeName}', [InstructionController::class, 'getPlanByCodeName']);
-
-    //location routes
-    Route::get('/locations', [LocationController::class, 'index']);
-    Route::post('/locations', [LocationController::class, 'store']);
-    Route::put('/locations/{id}', [LocationController::class, 'update']);
-    Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
+    Route::post('/maps/{map}/{farm_id}', [FarmController::class, 'setImageBy']);
+    Route::put('/drone/{id}/', [DroneController::class, 'update']);
 });
 
 
